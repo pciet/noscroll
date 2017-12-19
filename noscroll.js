@@ -8,7 +8,7 @@
 
 // alpha version
 
-// noscroll provides the function noscroll.addLayout for HTML page layouts meant to work with resizing, without any scrolling, and with varying layouts by toggling or by dimension, where element dimensions are defined by CSS width and height in percentage. Padding, border, and margin is calculated to fit within the provided percentage dimensions. The HTML behavior of newline counting as whitespace is removed so your layout definition can use multiple lines. Sibling elements without defined dimensions are set to fill the available space equally, and when only some sibling elements have dimensions defined the rest take up the remaining space equally. Elements are centered horizontally and vertically within their space.
+// noscroll provides the function noscroll.addLayout for HTML page layouts meant to work with resizing, without any scrolling, and with varying layouts by toggling or by dimension, where element dimensions are defined by CSS width and height in percentage. The HTML behavior of newline counting as whitespace is removed so your layout definition can use multiple lines. Sibling elements without defined dimensions are set to fill the available space equally, and when only some sibling elements have dimensions defined the rest take up the remaining space equally. Elements are centered horizontally and vertically within their space.
 (function(noscroll, $, undefined) {
 
 // Use this value if you'd like this layout to apply in all cases above the previous maximum ratio layout.
@@ -104,6 +104,8 @@ function layoutElement(jQueryElement) {
         return true;
     };
     jQueryElement.children().each(function(index, element) {
+        // https://www.w3schools.com/css/css3_box-sizing.asp
+        $(element).css('box-sizing', 'border-box');
         elements[index] = element;
         if (inline == null) {
             inline = elementInline(element);
@@ -180,39 +182,12 @@ function layoutElement(jQueryElement) {
             }
         }
     }
-    var availableHeight = jQueryElement.innerHeight() 
-                            - parsePxFloat(jQueryElement, 'padding-top') 
-                            - parsePxFloat(jQueryElement, 'padding-bottom');
-    var availableWidth = jQueryElement.innerWidth() 
-                            - parsePxFloat(jQueryElement, 'padding-left') 
-                            - parsePxFloat(jQueryElement, 'padding-right');
     for (var i = 0; i < elements.length; i++) {
         var e = $(elements[i]);
-        e.css('width', ((widths[i] / 100) * availableWidth) 
-                        - (parsePxFloat(e, 'border-left-width')
-                            +parsePxFloat(e, 'border-right-width')
-                            +parsePxFloat(e, 'margin-left')
-                            +parsePxFloat(e, 'margin-right')) 
-                        + 'px');
-        e.css('height', ((heights[i] / 100) * availableHeight) 
-                        - (parsePxFloat(e, 'border-top-width')
-                            +parsePxFloat(e, 'border-bottom-width')
-                            +parsePxFloat(e, 'margin-top')
-                            +parsePxFloat(e, 'margin-bottom')) 
-                        + 'px');
+        e.css('width', ((widths[i] / 100) * jQueryElement.innerWidth()) + 'px');
+        e.css('height', ((heights[i] / 100) * jQueryElement.innerHeight()) + 'px');
         layoutElement(e);
     }
-}
-
-function parsePxFloat(element, property) {
-    var value = element.css(property);
-    if (typeof value == 'undefined') {
-        throw 'noscroll: element ' + element + ' doesn\'t have property ' + property;
-    }
-    if (value.includes('px') == false) {
-        throw 'noscroll: element ' + element + ' property ' + property + ' is not in pixels';
-    }
-    return parseFloat(value);
 }
 
 function elementInline(element) {
