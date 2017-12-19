@@ -159,6 +159,8 @@ function layoutElement(jQueryElement) {
         var totalWidth = 0;
         var nullWidths = 0;
         for (var i = 0; i < elements.length; i++) {
+            // inline-block elements require vertical-align: top to be set for correct spacing
+            $(elements[i]).css('vertical-align', 'top');
             if (widths[i] != null) {
                 totalWidth += widths[i];
             } else {

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>noscroll: Nested Hello, World!</title>
+    <style>
+        div {
+            text-align: center;
+            border: 5px solid black;
+            font-size: 24px;
+        }
+        .inline {
+            display: inline-block;
+        }
+    </style>
+    <script type="text/javascript" src="../jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../noscroll.js"></script>
+    <script type="text/javascript">
+        noscroll.addLayout(0.8, 0, `
+            <div>
+                <div>Hello,</div>
+                <div>Hello,</div>
+                <div>Hello,</div>
+            </div>
+            <div>
+                <div>World!</div>
+                <div>World!</div>
+                <div>World!</div>
+            </div>
+        `);
+        noscroll.addLayout(1.5, 0, `
+            <div>
+                <div>Hello,</div>
+                <div>Hello,</div>
+                <div>
+                    <div class="inline">Hello,</div>
+                    <div class="inline">Hello,</div>
+                    <div class="inline">Hello,</div>
+                </div>
+            </div>
+            <div>
+                <div>World!</div>
+                <div>
+                    <div class="inline">World!</div>
+                    <div class="inline">World!</div>
+                    <div class="inline">World!</div>
+                </div>
+                <div>World!</div>
+            </div>
+        `);
+        noscroll.addLayout(noscroll.LayoutMaxRatio, 0, `
+            <div class="inline">
+                <div class="inline">
+                    <div>Hello,</div>
+                    <div>Hello,</div>
+                    <div>Hello,</div>
+                </div>
+                <div class="inline">
+                    <div>Hello,</div>
+                    <div>Hello,</div>
+                    <div>Hello,</div>
+                </div>
+            </div>
+            <div class="inline">
+                <div>World!</div>
+                <div>
+                    <div>World!</div>
+                    <div>World!</div>
+                    <div>World!</div>
+                </div>
+                <div>World!</div>
+            </div>
+        `);
+    </script>
+</head>
+<body></body>
+</html>
